@@ -200,15 +200,18 @@
 					3FF935E41D80593F0095A9BC = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = U92U7ZL9S5;
+						LastSwiftMigration = 0820;
 					};
 					3FF935FC1D80593F0095A9BC = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = U92U7ZL9S5;
+						LastSwiftMigration = 0820;
 						TestTargetID = 3FF935E41D80593F0095A9BC;
 					};
 					3FF936071D80593F0095A9BC = {
 						CreatedOnToolsVersion = 7.3.1;
 						DevelopmentTeam = U92U7ZL9S5;
+						LastSwiftMigration = 0820;
 						TestTargetID = 3FF935E41D80593F0095A9BC;
 					};
 				};
@@ -416,6 +419,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "whatever-you-wish.Crashy-Plane";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Debug;
@@ -428,6 +432,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "whatever-you-wish.Crashy-Plane";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TARGETED_DEVICE_FAMILY = 1;
 			};
 			name = Release;
@@ -441,6 +446,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "whatever-you-wish.Crashy-PlaneTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Crashy Plane.app/Crashy Plane";
 			};
 			name = Debug;
@@ -453,6 +459,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "whatever-you-wish.Crashy-PlaneTests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/Crashy Plane.app/Crashy Plane";
 			};
 			name = Release;
@@ -465,6 +472,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "whatever-you-wish.Crashy-PlaneUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = "Crashy Plane";
 			};
 			name = Debug;
@@ -476,6 +484,7 @@
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = "whatever-you-wish.Crashy-PlaneUITests";
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_VERSION = 3.0;
 				TEST_TARGET_NAME = "Crashy Plane";
 			};
 			name = Release;
@@ -499,6 +508,7 @@
 				3FF936131D80593F0095A9BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3FF936141D80593F0095A9BC /* Build configuration list for PBXNativeTarget "Crashy PlaneTests" */ = {
 			isa = XCConfigurationList;
@@ -507,6 +517,7 @@
 				3FF936161D80593F0095A9BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		3FF936171D80593F0095A9BC /* Build configuration list for PBXNativeTarget "Crashy PlaneUITests" */ = {
 			isa = XCConfigurationList;
@@ -515,6 +526,7 @@
 				3FF936191D80593F0095A9BC /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};

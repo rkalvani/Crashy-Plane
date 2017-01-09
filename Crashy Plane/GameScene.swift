@@ -10,9 +10,9 @@ import SpriteKit
 import GameplayKit
 
 enum GameState {
-    case ShowingLogo
-    case Playing
-    case Dead
+    case showingLogo
+    case playing
+    case dead
 }
 
 class GameScene: SKScene, SKPhysicsContactDelegate {
@@ -25,7 +25,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
     var gameOver: SKSpriteNode!
     
     //keeps track of game state
-    var gameState = GameState.ShowingLogo
+    var gameState = GameState.showingLogo
     
     var score = 0 {
         didSet {
@@ -33,7 +33,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         }
     
     }
-    override func didMoveToView(view: SKView) {
+    override func didMove(to view: SKView) {
         /* Setup your scene here */
         createPlane()
         createBackground()
@@ -46,47 +46,47 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         physicsWorld.contactDelegate = self
             }
     
-    override func touchesBegan(touches: Set<UITouch>, withEvent event: UIEvent?) {
+    override func touchesBegan(_ touches: Set<UITouch>, with event: UIEvent?) {
         switch gameState {
-        case .ShowingLogo:
-            gameState = .Playing
+        case .showingLogo:
+            gameState = .playing
             
-            let fadeOut = SKAction.fadeOutWithDuration(0.5)
+            let fadeOut = SKAction.fadeOut(withDuration: 0.5)
             let remove = SKAction.removeFromParent()
-            let wait = SKAction.waitForDuration(0.5)
-            let activatePlayer = SKAction.runBlock{
+            let wait = SKAction.wait(forDuration: 0.5)
+            let activatePlayer = SKAction.run{
                 [unowned self] in
-                self.plane.physicsBody?.dynamic = true
+                self.plane.physicsBody?.isDynamic = true
                 self.rockGenerator()
             }
         let sequence = SKAction.sequence([fadeOut, wait, activatePlayer, remove])
-            logo.runAction(sequence)
+            logo.run(sequence)
         
-           case .Playing:
+           case .playing:
         //clears velociy off taps
         plane.physicsBody?.velocity = CGVector(dx: 0, dy: 0)
         // pushes up plane
         plane.physicsBody?.applyImpulse(CGVector(dx: 0, dy: 20))
             
-        case .Dead:
+        case .dead:
             //resets the game
             let scene = GameScene(fileNamed: "GameScene")!
-            scene.scaleMode = .ResizeFill
-            let transition = SKTransition.moveInWithDirection(SKTransitionDirection.Right, duration: 1)
+            scene.scaleMode = .resizeFill
+            let transition = SKTransition.moveIn(with: SKTransitionDirection.right, duration: 1)
             self.view?.presentScene(scene, transition: transition)
         }
            }
-    override func update(currentTime: CFTimeInterval) {
+    override func update(_ currentTime: TimeInterval) {
         /* Called before each frame is rendered */
        guard plane != nil else {return} 
         //rotates the plane on tap for a realistic look to sprite
         let value = plane.physicsBody!.velocity.dy * 0.001
-        let rotate = SKAction.rotateToAngle(value, duration: 0.1)
-        plane.runAction(rotate)
+        let rotate = SKAction.rotate(toAngle: value, duration: 0.1)
+        plane.run(rotate)
     }
     
     //checks for passes adds to score, coin noisem and removes rectangle
-    func didBeginContact(contact: SKPhysicsContact) {
+    func didBegin(_ contact: SKPhysicsContact) {
         //determines if you hit a red rectangle could be A or B
         if contact.bodyA.node?.name == "scoreDetect" || contact.bodyB.node?.name == "scoreDetect"
         {
@@ -97,7 +97,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 contact.bodyA.node?.removeFromParent()
             }
             let sound = SKAction.playSoundFileNamed("coin.wav", waitForCompletion: false)
-            runAction(sound)
+            run(sound)
             score += 1
             return
         }
@@ -107,9 +107,9 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
                 addChild(explosion)
             }
             let sound = SKAction.playSoundFileNamed("explosion.wav", waitForCompletion: false)
-            runAction(sound)
+            run(sound)
             gameOver.alpha = 1
-            gameState = .Dead
+            gameState = .dead
             plane.removeFromParent()
             speed = 0
         }
@@ -129,15 +129,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         //tells us of any collisions
         plane.physicsBody?.contactTestBitMask = (plane.physicsBody?.collisionBitMask)!
         //makes the plane respond to physics
-        plane.physicsBody?.dynamic = false
+        plane.physicsBody?.isDynamic = false
         //adds the bounce off nothing
         plane.physicsBody?.collisionBitMask = 0
         
         let frame2 = SKTexture(imageNamed: "player-2") //additional textures
         let frame3 = SKTexture(imageNamed: "player-3")
-        let animation = SKAction.animateWithTextures([planeTexture, frame2, frame3, frame2], timePerFrame: 0.01) //setting textures for an anmation loop
-        let runForver = SKAction.repeatActionForever(animation) //sets the animation to loop over and over
-        plane.runAction(runForver) //runs the animation on the node
+        let animation = SKAction.animate(with: [planeTexture, frame2, frame3, frame2], timePerFrame: 0.01) //setting textures for an anmation loop
+        let runForver = SKAction.repeatForever(animation) //sets the animation to loop over and over
+        plane.run(runForver) //runs the animation on the node
     }
     
     func createBackground() {
@@ -162,15 +162,15 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         for i in 0...1 {
             let mountainPick = SKSpriteNode(texture: mountainTexture)
             mountainPick.zPosition = -30
-            mountainPick.anchorPoint = CGPointZero
+            mountainPick.anchorPoint = CGPoint.zero
             mountainPick.position = CGPoint(x: (mountainTexture.size().width * CGFloat(i))-CGFloat(1*i), y: 100)
             addChild(mountainPick)
             
             // moves mountain cross view, resets mountain
-            let moveLeft = SKAction.moveByX( -mountainTexture.size().width, y: 0, duration: 20)
-            let moveReset = SKAction.moveByX(mountainTexture.size().width, y: 0, duration: 0)
+            let moveLeft = SKAction.moveBy( x: -mountainTexture.size().width, y: 0, duration: 20)
+            let moveReset = SKAction.moveBy(x: mountainTexture.size().width, y: 0, duration: 0)
             let moveLoop = SKAction.sequence([moveLeft, moveReset])
-            mountainPick.runAction(SKAction.repeatActionForever(moveLoop))
+            mountainPick.run(SKAction.repeatForever(moveLoop))
     }
     }
     
@@ -186,13 +186,13 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
             //adds physics
             ground.physicsBody = SKPhysicsBody(texture: groundTexture, size: groundTexture.size())
             //holds it in place
-            ground.physicsBody?.dynamic = false
+            ground.physicsBody?.isDynamic = false
             
-            let moveLeft = SKAction.moveByX( -groundTexture.size().width, y: 0, duration: 5)
-            let moveReset = SKAction.moveByX(groundTexture.size().width, y: 0, duration: 0)
+            let moveLeft = SKAction.moveBy( x: -groundTexture.size().width, y: 0, duration: 5)
+            let moveReset = SKAction.moveBy(x: groundTexture.size().width, y: 0, duration: 0)
             let moveLoop = SKAction.sequence([moveLeft, moveReset])
            
-            ground.runAction(SKAction.repeatActionForever(moveLoop))
+            ground.run(SKAction.repeatForever(moveLoop))
         }
     }
 
@@ -204,7 +204,7 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //sets collision up. but [revents the rocks from falling off screen
         topRock.physicsBody = SKPhysicsBody(texture: rockTexture, size: rockTexture.size())
-        topRock.physicsBody?.dynamic = false
+        topRock.physicsBody?.isDynamic = false
         
         //flips rock
         topRock.zRotation = CGFloat(M_PI)
@@ -214,17 +214,17 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         //sets collision up but prevents the rocks from falling off screen
         bottomRock.physicsBody = SKPhysicsBody(texture: rockTexture, size: rockTexture.size())
-        bottomRock.physicsBody?.dynamic = false
+        bottomRock.physicsBody?.isDynamic = false
         
         bottomRock.zPosition = -20
         topRock.zPosition = -20
         
         //creates a collision with sprite after rocks
-        let rockCollision = SKSpriteNode(color: UIColor.clearColor(), size: CGSize(width: 32, height: frame.height))
+        let rockCollision = SKSpriteNode(color: UIColor.clear, size: CGSize(width: 32, height: frame.height))
         
         //sets collision up but prevents red recangle from free falling off screen
-        rockCollision.physicsBody = SKPhysicsBody(rectangleOfSize: rockCollision.size)
-        rockCollision.physicsBody?.dynamic = false
+        rockCollision.physicsBody = SKPhysicsBody(rectangleOf: rockCollision.size)
+        rockCollision.physicsBody?.isDynamic = false
         
         rockCollision.name = "scoreDetect"
         addChild(topRock)
@@ -247,32 +247,32 @@ class GameScene: SKScene, SKPhysicsContactDelegate {
         
         let endPosition = frame.width + (topRock.frame.width * 2)
         
-        let moveAction = SKAction.moveByX(-endPosition, y: 0, duration: 6.2)
+        let moveAction = SKAction.moveBy(x: -endPosition, y: 0, duration: 6.2)
         let moveSequence = SKAction.sequence([moveAction, SKAction.removeFromParent()])
-        topRock.runAction(moveSequence)
-        bottomRock.runAction(moveSequence)
-        rockCollision.runAction(moveSequence)
+        topRock.run(moveSequence)
+        bottomRock.run(moveSequence)
+        rockCollision.run(moveSequence)
     }
         
         func rockGenerator() {
             // creates a new set of rocks every 3 seconds
-            let create = SKAction.runBlock
+            let create = SKAction.run
                 {
                 self.createRocks()
                 }
             
-            let wait = SKAction.waitForDuration(3)
+            let wait = SKAction.wait(forDuration: 3)
             let sequence = SKAction.sequence([create,wait])
-            runAction(SKAction.repeatActionForever(sequence))
+            run(SKAction.repeatForever(sequence))
         }
         
         func createScore() {
             scoreLabel = SKLabelNode(fontNamed: "Optima-ExtraBlock")
             scoreLabel.fontSize = 24
             scoreLabel.position = CGPoint(x: frame.maxX - 20, y: frame.maxY - 40)
-            scoreLabel.horizontalAlignmentMode = .Right
+            scoreLabel.horizontalAlignmentMode = .right
             scoreLabel.text = "SCORE: 0"
-            scoreLabel.fontColor = UIColor.blackColor()
+            scoreLabel.fontColor = UIColor.black
             
             addChild(scoreLabel)
         }
